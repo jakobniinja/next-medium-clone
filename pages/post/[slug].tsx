@@ -9,6 +9,7 @@ interface Props {
 }
 
 function Post({ post }: Props) {
+  console.log(post);
   return (
     <main>
       <Header />
@@ -17,12 +18,23 @@ function Post({ post }: Props) {
         src={urlFor(post.mainImage).url()!}
         alt="banner"
       />
-      <article className="max-w-3xl mx-auto p-5" >
-        <h1 className="text-3xl mt-10 mb-3">
-          {post.title}
-        </h1>
+      <article className="max-w-3xl mx-auto p-5">
+        <h1 className="text-3xl mt-10 mb-3">{post.title}</h1>
+        <h2 className="text-xl font-light text-gray-500 mb-2">
+          {post.description}
+        </h2>
+        <div>
+          <img
+            className="h-10 w-10 rounded-full "
+            src={urlFor(post.author.name).url()}
+            alt="author name "
+          />
+          <p className="font-extralight text-sm ">
+            {/* Blog post by {post.author.name} - Published at{" "}
+            {new Date(post._createAt).toLocaleString()} */}
+          </p>
+        </div>
       </article>
-
     </main>
   );
 }
@@ -52,24 +64,26 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  console.log(params?.slug);
   const query = `*[_type == "post" && slug.current == $slug][0] {
-      _id,
-      _createdAt,
-      title,
-      author -> {
-        name,
-        image
-      },
-      "comments": *[
-        _type == "comment" &&
-        post._ref == ^._id && 
-        approved == true
-      ],
-      description,
-      mainImage,
-      slug,
-      body
-    }`;
+  _id,
+  _createdAt,
+  title,
+  author -> {
+    name,
+    image
+  },
+  "comments": *[
+    _type == "comment" &&
+    post._ref == ^._id && 
+    approved == true
+  ],
+  description,
+  mainImage,
+  slug,
+  body
+}`;
+
   const post = await sanityClient.fetch(query, {
     slug: params?.slug,
   });
@@ -84,6 +98,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post,
     },
-    revalidate: 60, // after 60s
+    revalidate: 60,
   };
 };
