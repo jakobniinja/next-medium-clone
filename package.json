@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -- -p 3001",
     "build": "next build",
     "start": "next start"
   },
@@ -10,7 +10,8 @@
     "next": "latest",
     "next-sanity": "^0.6.0",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "react-portable-text": "^0.4.3"
   },
   "devDependencies": {
     "@types/node": "17.0.35",
