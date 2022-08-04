@@ -16,11 +16,9 @@ interface Props {
   post: Post;
 }
 
- const onSubmit: SubmitHandler<IFormInput> = () => {
-   
- };
- 
- 
+const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  console.log(data);
+};
 
 function Post({ post }: Props) {
   const {
@@ -28,7 +26,7 @@ function Post({ post }: Props) {
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInput>();
-  console.log("date is: ", new Date(post._createdAt).toLocaleString());
+  // console.log("date is: ", new Date(post._createdAt).toLocaleString());
 
   return (
     <main>
@@ -84,7 +82,10 @@ function Post({ post }: Props) {
         </div>
       </article>
       <hr className="max-w-lg my-5 mx-auto border border-yellow-500" />
-      <form className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col p-5 max-w-2xl mx-auto mb-10"
+      >
         <h3 className="text-sm text-yellow-500">enjoyed this article?</h3>
         <h4 className="text-3xl font-bold">Leave a comment below!</h4>
         <hr className="py-3 mt-2" />
@@ -92,12 +93,10 @@ function Post({ post }: Props) {
         <input type="hidden" {...register} value={post._id} name="_id" />
 
         <label htmlFor="" className="block mb-5 ">
-          <span
-            className="text-gray-700 "
-            {...register("name", { required: true })}
-          >
+          <span className="text-gray-700 ">
             Name
             <input
+              {...register("name", { required: true })}
               className="shadow border rounded py-3 px-2 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring"
               type="text"
               placeholder="John Appleseed"
@@ -105,14 +104,12 @@ function Post({ post }: Props) {
           </span>
         </label>
         <label htmlFor="" className="block mb-5 ">
-          <span
-            className="text-gray-700 "
-            {...register("email", { required: true })}
-          >
+          <span>
             Email
             <input
+              {...register("email", { required: true })}
               className="shadow border rounded py-3 px-2 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring"
-              type="text"
+              type="email"
               placeholder="John@gmail.com"
             />
           </span>
@@ -128,19 +125,21 @@ function Post({ post }: Props) {
             />
           </span>
         </label>
+        {/* errors */}
+
         <div className="flex flex-col p-5">
           {errors.name && (
-            <span className="text-red-500">-- The name field is required!</span>
+            <span className="text-red-500">- The name field is required</span>
           )}
-          {errors.email && (
-            <span className="text-red-500">
-              -- The email field is required!
-            </span>
-          )}
+
           {errors.comment && (
             <span className="text-red-500">
-              -- The comment field is required!
+              - The Comment Field is required{" "}
             </span>
+          )}
+
+          {errors.email && (
+            <span className="text-red-500">- The Email Field is required</span>
           )}
         </div>
         <input
