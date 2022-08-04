@@ -17,6 +17,15 @@ interface Props {
 }
 
 const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  await fetch('/api/createComment', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).then(() =>  {
+    console.log(data);
+  }).catch((err ) => {
+    console.log(err);
+  })
+
   console.log(data);
 };
 
