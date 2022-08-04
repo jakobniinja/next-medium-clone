@@ -17,7 +17,6 @@ interface Props {
 }
 
 function Post({ post }: Props) {
-
   const [submitted, setSubmitted] = useState(false);
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     await fetch("/api/createComment", {
@@ -165,9 +164,11 @@ function Post({ post }: Props) {
           />
         </form>
       ) : (
-        <h2 className="shadow bg-blue-500 focus:outline-none text-white font-semibold  text-2xl">
-          form succesfully submitted
-        </h2>
+        <div
+          className="flex flex-col p-10 my-10  bg-yellow-500 text-white max-w-md mx-auto">
+          <h3 className="text-3xl font-bold ">thank you for submitting your comment</h3>
+          <p> once the comments have been approved ,it will appear below!</p>
+        </div>
       )}
     </main>
   );
