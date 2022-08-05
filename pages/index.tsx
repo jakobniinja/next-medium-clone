@@ -8,7 +8,7 @@ import { Post } from "../typings";
 interface Props {
   posts: [Post];
 }
-const Home: NextPage = ({ posts }: Props) => {
+function Home({ posts }: Props) {
   console.log(posts);
   return (
     <div className="max-w-7xl mx-auto ">
@@ -33,23 +33,22 @@ const Home: NextPage = ({ posts }: Props) => {
         <img
           className="hidden md:inline-flex h-32 lg:h-full"
           src="https://accountabilitylab.org/wp-content/uploads/2020/03/Medium-logo.png"
-          alt="Medium Logo"
-        />
+          alt="Medium Logo" />
       </div>
 
       {/* posts */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 p-2 lg:p-6">
         {posts.map((post) => (
           <Link
-            key={post._createAt}
+            key={post._createdAt}
             rel="stylesheet"
             href={`/post/${post.slug.current}`}
           >
-            <div className="border rounded-lg group cursor-pointer overflow-hidden " >
-              <img className="h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out"   src={urlFor(post.mainImage).url()!} alt="main image" />
-              <div className="flex justify-between p-5 bg-white" > 
+            <div className="border rounded-lg group cursor-pointer overflow-hidden ">
+              <img className="h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out" src={urlFor(post.mainImage).url()!} alt="main image" />
+              <div className="flex justify-between p-5 bg-white">
                 <div>
-                  <p className="text-lg font-bold " >{post.title} </p>
+                  <p className="text-lg font-bold ">{post.title} </p>
                   <p className="text-xs">
                     {post.description} by {post.author.name}
                   </p>
@@ -62,7 +61,7 @@ const Home: NextPage = ({ posts }: Props) => {
       </div>
     </div>
   );
-};
+}
 
 export default Home;
 
